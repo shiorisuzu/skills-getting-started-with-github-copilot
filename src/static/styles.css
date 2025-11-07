@@ -1,3 +1,21 @@
+/* 箇条書きを非表示にする */
+.no-bullets {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* 削除アイコンのスタイル */
+.delete-participant {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #d32f2f;
+  font-size: 1.2em;
+  vertical-align: middle;
+  transition: color 0.2s;
+}
+.delete-participant:hover {
+  color: #b71c1c;
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -72,6 +90,51 @@ section h3 {
 
 .activity-card p {
   margin-bottom: 8px;
+}
+
+/* Participants list styling */
+.participants {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.participants h5 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.participants-list {
+  list-style: disc;
+  padding-left: 24px;
+  margin: 0;
+}
+
+.participant-item {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.participant-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #e8eaf6; /* light indigo */
+  color: #1a237e;
+  font-weight: 700;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.participant-email {
+  color: #333;
+  font-size: 14px;
+  word-break: break-all;
 }
 
 .form-group {
