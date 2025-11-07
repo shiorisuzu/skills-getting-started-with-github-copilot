@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (details.participants && details.participants.length > 0) {
           const ul = document.createElement("ul");
-          ul.className = "participants-list";
+          ul.className = "participants-list no-bullets";
 
           details.participants.forEach((p) => {
             const li = document.createElement("li");
@@ -62,8 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
             emailSpan.className = "participant-email";
             emailSpan.textContent = p;
 
+              // 削除アイコン
+              const deleteIcon = document.createElement("span");
+              deleteIcon.className = "delete-participant";
+              deleteIcon.innerHTML = "&#128465;"; // ゴミ箱アイコン
+              deleteIcon.title = "Unregister participant";
+              deleteIcon.setAttribute("data-activity", name);
+              deleteIcon.setAttribute("data-email", p);
+
             li.appendChild(badge);
             li.appendChild(emailSpan);
+              li.appendChild(deleteIcon);
             ul.appendChild(li);
           });
 
@@ -129,6 +138,48 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.className = "error";
       messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
+    }
+  });
+
+  // Handle participant unregistration
+  activitiesList.addEventListener("click", async (event) => {
+    const deleteIcon = event.target.closest(".delete-participant");
+    if (!deleteIcon) return;
+
+    const activity = deleteIcon.getAttribute("data-activity");
+    const email = deleteIcon.getAttribute("data-email");
+
+    try {
+      const response = await fetch(
+        `/activities/${encodeURIComponent(activity)}/unregister?email=${encodeURIComponent(email)}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        messageDiv.textContent = result.message;
+        messageDiv.className = "success";
+        // 削除が成功したら、アクティビティリストを更新
+        fetchActivities();
+      } else {
+        messageDiv.textContent = result.detail || "An error occurred";
+        messageDiv.className = "error";
+      }
+
+      messageDiv.classList.remove("hidden");
+
+      // 5秒後にメッセージを非表示
+      setTimeout(() => {
+        messageDiv.classList.add("hidden");
+      }, 5000);
+    } catch (error) {
+      messageDiv.textContent = "Failed to unregister participant. Please try again.";
+      messageDiv.className = "error";
+      messageDiv.classList.remove("hidden");
+      console.error("Error unregistering participant:", error);
     }
   });
 
