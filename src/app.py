@@ -65,7 +65,7 @@ activities = {
         "description": "Acting, improvisation, and school productions",
         "schedule": "Thursdays, 3:30 PM - 5:30 PM",
         "max_participants": 24,
-        "participants": ["jack@mergington.edu", "harper@mergington.edu"]
+        "participants": []
     },
 
     # Intellectual activities
